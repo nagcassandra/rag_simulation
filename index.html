@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG Simulator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2, h3 { color: #2c3e50; }
+        .section { margin-bottom: 30px; }
+        input, button, select, textarea { margin: 5px 0; padding: 5px; }
+        textarea { width: 100%; height: 100px; }
+    </style>
+</head>
+<body>
+    <h1>RAG Simulator</h1>
+    <p>Understand RAG by simulating every step visually.</p>
+
+    <div class="section">
+        <h2>Control Center</h2>
+        <p>Change the knowledge base, chunking behavior, and query to see how RAG behaves.</p>
+        <label>Knowledge base documents:</label><br>
+        <textarea id="kb">Enter your documents here. Use ---DOC--- for multiple docs.</textarea><br>
+        <label>Chunk size (approx words per chunk):</label><br>
+        <input type="number" id="chunkSize" value="28"><br>
+        <label>User prompt:</label><br>
+        <input type="text" id="userPrompt" placeholder="Enter your query"><br>
+        <button onclick="buildKB()">Build KB</button>
+        <button onclick="askQuery()">Ask Query</button>
+        <button onclick="stepThrough()">Step Through</button>
+        <button onclick="resetSimulation()">Reset</button>
+    </div>
+
+    <div class="section">
+        <h2>RAG Step Journey</h2>
+        <ol>
+            <li>Collect Docs - Documents enter the knowledge base.</li>
+            <li>Chunk Docs - Large text is split into smaller pieces.</li>
+            <li>Create Embeddings - Each chunk becomes a vector representation.</li>
+            <li>Vector Search - User prompt is embedded and similar chunks are retrieved.</li>
+            <li>Generate Answer - LLM uses retrieved chunks as context to answer.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>Simulation Log</h2>
+        <textarea id="log" readonly></textarea>
+    </div>
+
+    <div class="section">
+        <h2>Final RAG Answer</h2>
+        <div id="answer" style="border:1px solid #ccc; padding:10px; min-height:50px;"></div>
+    </div>
+
+    <script>
+        function buildKB() {
+            document.getElementById('log').value += "Knowledge base built.\n";
+        }
+        function askQuery() {
+            const prompt = document.getElementById('userPrompt').value;
+            document.getElementById('answer').innerText = "Simulated answer for: " + prompt;
+            document.getElementById('log').value += "Query asked: " + prompt + "\n";
+        }
+        function stepThrough() {
+            document.getElementById('log').value += "Step through simulation.\n";
+        }
+        function resetSimulation() {
+            document.getElementById('kb').value = "";
+            document.getElementById('userPrompt').value = "";
+            document.getElementById('log').value = "";
+            document.getElementById('answer').innerText = "";
+        }
+    </script>
+</body>
+</html>
